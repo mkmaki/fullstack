@@ -16,6 +16,7 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
+console.log('blogsRouter req body: ', request.body)
   if(!request.body.likes) {
     request.body.likes = 0
   }
@@ -55,8 +56,8 @@ blogsRouter.delete('/:id', async (request, response) => {
       return response.status(400).json({ error: 'invalid token' })
     }
     const blogi = await Blog.findById(blogId)
-
-    if(decodedToken.id === String(blogi.user)) {
+    
+    if(blogi.user === null || decodedToken.id === String(blogi.user)) {
       await Blog.findByIdAndRemove(blogId)
       return response.status(204).end()
     } else {
@@ -73,8 +74,10 @@ blogsRouter.put('/:id', async (request, response) => {
   const blogId = String(request.params.id)
   const ob = {}
   ob.likes = request.body.likes
+  console.log('likes:', request.body.likes)
   try {
-    const update = await Blog.findByIdAndUpdate(blogId, { $set: ob })
+    //const update = await Blog.findByIdAndUpdate(blogId, { $set: ob })
+    const update = await Blog.findByIdAndUpdate(blogId, { $inc : {'likes':1} } )
     response.json(ob)
   } catch (exception) {
     response.status(400).end()
