@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2"
   },
@@ -12,6 +14,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "eslint .",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1"
   }
 }
