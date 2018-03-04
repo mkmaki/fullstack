@@ -1,3 +1,6 @@
+
+import { addAnecdote } from '../services/anecdotes'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,13 +22,14 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const anecdotesReducer = (store = initialState, action) => {
+const anecdotesReducer = (store = [], action) => {
   switch(action.type) {
     case 'VOTE':
       const old = store.filter(a => a.id !==action.id)
       const voted = store.find(a => a.id === action.id)
       return [...old, { ...voted, votes: voted.votes+1} ]
     case 'CREATE':
+      addAnecdote({ content: action.content, id: getId(), votes:0 })
       return [...store, { content: action.content, id: getId(), votes:0 }]
     default:
       return store

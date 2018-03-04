@@ -3,12 +3,14 @@ import { create } from '../reducers/anecdotesReducer'
 import { notify } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
+
 class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
     this.props.create(content)
     this.props.notify(`You created a new blog "${content}"`)
+    
     setTimeout(() => {
       this.props.notify('')
     }, 5000)
@@ -22,6 +24,7 @@ class AnecdoteForm extends React.Component {
           <div><input name='anecdote'/></div>
           <button>create</button>
         </form>
+        <button onClick={ () => console.log(this.props.state) }>State </button>
       </div>
      )
    }
