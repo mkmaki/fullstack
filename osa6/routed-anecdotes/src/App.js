@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
+import { ListGroup, ListGroupItem, Grid, Row, Col } from 'react-bootstrap'
 const Menu = () => (
   <div>
     <Link to="/">anecdotes</Link>&nbsp;
@@ -13,22 +13,37 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      <ListGroup>
+      {anecdotes.map(anecdote => <ListGroupItem key={anecdote.id} >{anecdote.content}</ListGroupItem>)}
+      </ListGroup>
     </ul>
   </div>
 )
-
-const About = () => (
+const Anecdote = ({ anecdote }) => (
   <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-    <em>An anecdote is a brief, revealing account of an individual person or an incident. 
+    <h2>Anecdote</h2>
+    <ul>
+      {anecdote.content}
+    </ul>
+  </div>
+)
+const About = () => (
+  <Grid>
+    
+    <Row>
+      <Col sm={10} md={10}><em>An anecdote is a brief, revealing account of an individual person or an incident. 
       Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
       such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
       An anecdote is "a story with a point."</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+    </Col>
+    <Col sm={1} md={1}>
+      <img height="100" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/JohnvonNeumann-LosAlamos.gif"></img>
+    </Col>
+>
+    </Row>
+  </Grid>
 )
 
 const Footer = () => (
@@ -62,6 +77,7 @@ class CreateNew extends React.Component {
       info: this.state.info,
       votes: 0
     })
+    
   }
 
   render() {
@@ -145,6 +161,9 @@ class App extends React.Component {
             <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
             <Route path="/create" render={() => <CreateNew addNew={this.addNew}/>} />
             <Route path="/about" render={() => <About/>} />
+            
+            <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />} />
+
         <Footer />
         </div>
         </Router>
